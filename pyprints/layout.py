@@ -19,7 +19,7 @@ class HtmlLayout(Layout):
     style_sheet = None
 
     def __init__(self, style_sheet=None):
-        self._style_sheet = style_sheet
+        self.style_sheet = style_sheet
 
     def body_wrapper(self, text, title=None):
         doctype = "<!DOCTYPE html>"
