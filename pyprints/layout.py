@@ -5,6 +5,9 @@ class TextType:
     is_numbered = False
 
 class Layout:
+    """
+    Abstract base class for output layouts.
+    """
     def body_wrapper(self, text, title=None):
         raise NotImplementedError
 
@@ -16,6 +19,9 @@ class Layout:
 
 
 class HtmlLayout(Layout):
+    """
+    Layout to output HTML objects.
+    """
     style_sheet = None
 
     def __init__(self, style_sheet=None):

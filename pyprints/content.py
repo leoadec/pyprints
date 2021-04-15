@@ -14,7 +14,31 @@ class Content:
     title: str
     content_parts: list
 
+def parse_api(module, parser=None, filter=None):
+    """
+    Converts a module's API into a dictionary of Content objects.
+    """
+    if parser is None:
+        parser = str
+
+    return_dict = {}
+
+    if not hasattr(module, "__all__"):
+        return return_dict
+
+    for element_name in module.__all__:
+        element = getattr(module, element_name)
+        if hasattr(element, "__doc__"):
+            return_dict[element_name] = parse_content(
+                parser(element.__doc__), filter
+            )
+
+    return return_dict
+
 def parse_content(content, filter=None):
+    """
+    Converts serialized string into a Content object.
+    """
     if filter is None:
         filter = lambda x: x
 
@@ -55,6 +79,9 @@ def _parse_content_part(content_part, filter):
 
 
 def render_content(content, layout):
+    """
+    Converts Content object into rendition according to a Layout.
+    """
     starting_level = 1 if (content.title is not None) else 0
     body = _render_content_part(content.content_parts, layout, starting_level)
     return layout.body_wrapper(body, title=content.title)
